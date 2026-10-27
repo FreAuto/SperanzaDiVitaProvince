@@ -1,0 +1,140 @@
+MISURE DAX – Speranza di vita Dashboard ⏳
+Tabelle: zone, sessi, province, province_anni, regioni, regioni_anni, italia
+Filtri: zone[zona] (Nord, Centro, Sud, Isole) e sessi[sesso_nome] (Totale, Uomini, Donne)
+Collegamenti: zone <- province / province_anni / regioni / regioni_anni · sessi <- province_anni / regioni_anni / italia
+
+Colore Zona   (tabella zone) =
+    SELECTEDVALUE ( zone[colore_zona], "#6C5B9E" )
+
+Vita 2024   (tabella province) =
+    SWITCH ( SELECTEDVALUE ( sessi[sesso_nome], "Totale" ), "Uomini", AVERAGE ( province[vita_uomini_2024] ), "Donne", AVERAGE ( province[vita_donne_2024] ), AVERAGE ( province[vita_2024] ) )
+    formato: 0.0" anni"
+
+Vita Massima   (tabella province) =
+    MAX ( province[vita_2024] )
+    formato: 0.0" anni"
+
+Vita Minima   (tabella province) =
+    MIN ( province[vita_2024] )
+    formato: 0.0" anni"
+
+Distanza Province   (tabella province) =
+    [Vita Massima] - [Vita Minima]
+    formato: 0.0" anni"
+
+Donne Meno Uomini   (tabella province) =
+    AVERAGE ( province[differenza_donne_uomini] )
+    formato: +0.0" anni";-0.0" anni"
+
+Crescita dal 2010   (tabella province) =
+    AVERAGE ( province[crescita_2010_2024] )
+    formato: +0.0" anni";-0.0" anni"
+
+Calo Covid   (tabella province) =
+    AVERAGE ( province[calo_covid_2020] )
+    formato: +0.0" anni";-0.0" anni"
+
+Recupero 2024   (tabella province) =
+    AVERAGE ( province[recupero_2024_vs_2019] )
+    formato: +0.0" anni";-0.0" anni"
+
+Vita a 65 Anni   (tabella province) =
+    AVERAGE ( province[vita_65_2024] )
+    formato: 0.0" anni"
+
+Posto   (tabella province) =
+    MIN ( province[posizione] )
+    formato: 0
+
+N Province   (tabella province) =
+    COUNTROWS ( province )
+    formato: 0
+
+Colore Vita   (tabella province) =
+    VAR v = AVERAGE ( province[vita_2024] ) RETURN IF ( v >= 84, "#7FA88B", IF ( v >= 83, "#D9A441", "#E07A5F" ) )
+
+Colore Covid   (tabella province) =
+    IF ( AVERAGE ( province[calo_covid_2020] ) <= -2, "#E07A5F", "#B5A8D6" )
+
+Vita Anno   (tabella province_anni) =
+    AVERAGE ( province_anni[speranza_vita] )
+    formato: 0.0" anni"
+
+Buona Salute   (tabella regioni) =
+    SWITCH ( SELECTEDVALUE ( sessi[sesso_nome], "Totale" ), "Uomini", AVERAGE ( regioni[buona_salute_uomini] ), "Donne", AVERAGE ( regioni[buona_salute_donne] ), AVERAGE ( regioni[buona_salute] ) )
+    formato: 0.0" anni"
+
+Non Buona Salute   (tabella regioni) =
+    SWITCH ( SELECTEDVALUE ( sessi[sesso_nome], "Totale" ), "Uomini", AVERAGE ( regioni[vita_uomini] ), "Donne", AVERAGE ( regioni[vita_donne] ), AVERAGE ( regioni[vita] ) ) - [Buona Salute]
+    formato: 0.0" anni"
+
+Vita Regione   (tabella regioni) =
+    SWITCH ( SELECTEDVALUE ( sessi[sesso_nome], "Totale" ), "Uomini", AVERAGE ( regioni[vita_uomini] ), "Donne", AVERAGE ( regioni[vita_donne] ), AVERAGE ( regioni[vita] ) )
+    formato: 0.0" anni"
+
+Quota Buona Salute   (tabella regioni) =
+    DIVIDE ( [Buona Salute], [Vita Regione] )
+    formato: 0%
+
+Distanza Salute   (tabella regioni) =
+    MAX ( regioni[buona_salute] ) - MIN ( regioni[buona_salute] )
+    formato: 0.0" anni"
+
+Sedentari   (tabella regioni) =
+    AVERAGE ( regioni[sedentarieta] ) / 100
+    formato: 0%
+
+Sovrappeso   (tabella regioni) =
+    AVERAGE ( regioni[eccesso_peso] ) / 100
+    formato: 0%
+
+Fumatori   (tabella regioni) =
+    AVERAGE ( regioni[fumo] ) / 100
+    formato: 0%
+
+Morti Evitabili   (tabella regioni) =
+    AVERAGE ( regioni[mortalita_evitabile] )
+    formato: 0.0
+
+Salute Media   (tabella regioni) =
+    AVERAGE ( regioni[buona_salute] )
+    formato: 0.0" anni"
+
+Colore Zona Regione   (tabella regioni) =
+    SWITCH ( SELECTEDVALUE ( regioni[zona] ), "Nord", "#4C6EB1", "Centro", "#7FA88B", "Sud", "#E07A5F", "Isole", "#D9A441", "#6C5B9E" )
+
+Buona Salute Anno   (tabella regioni_anni) =
+    AVERAGE ( regioni_anni[anni_buona_salute] )
+    formato: 0.0" anni"
+
+Vita Italia   (tabella italia) =
+    AVERAGE ( italia[speranza_vita] )
+    formato: 0.0" anni"
+
+Salute Italia   (tabella italia) =
+    AVERAGE ( italia[anni_buona_salute] )
+    formato: 0.0" anni"
+
+Vita Uomini Italia   (tabella italia) =
+    CALCULATE ( AVERAGE ( italia[speranza_vita] ), REMOVEFILTERS ( sessi ), italia[territorio] = "Italia", italia[sesso_nome] = "Uomini" )
+    formato: 0.0" anni"
+
+Vita Donne Italia   (tabella italia) =
+    CALCULATE ( AVERAGE ( italia[speranza_vita] ), REMOVEFILTERS ( sessi ), italia[territorio] = "Italia", italia[sesso_nome] = "Donne" )
+    formato: 0.0" anni"
+
+Vita Totale Italia   (tabella italia) =
+    CALCULATE ( AVERAGE ( italia[speranza_vita] ), REMOVEFILTERS ( sessi ), italia[territorio] = "Italia", italia[sesso_nome] = "Totale" )
+    formato: 0.0" anni"
+
+Salute Uomini Italia   (tabella italia) =
+    CALCULATE ( AVERAGE ( italia[anni_buona_salute] ), REMOVEFILTERS ( sessi ), italia[territorio] = "Italia", italia[sesso_nome] = "Uomini" )
+    formato: 0.0" anni"
+
+Salute Donne Italia   (tabella italia) =
+    CALCULATE ( AVERAGE ( italia[anni_buona_salute] ), REMOVEFILTERS ( sessi ), italia[territorio] = "Italia", italia[sesso_nome] = "Donne" )
+    formato: 0.0" anni"
+
+📌 Le misure con SWITCH scelgono la colonna giusta in base al sesso scelto con i pulsanti.
+📌 Le misure "Colore ..." danno il colore ai grafici.
+📌 I nomi delle misure sono diversi dai nomi delle colonne.

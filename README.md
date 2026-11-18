@@ -1,5 +1,7 @@
 # ⏳ Dove si vive di più (e in buona salute)?
 
+![Speranza di vita](copertina.png)
+
 Progetto di **Francesco Autorino** – Data Analyst.
 
 🛠️ Strumenti: **Python · Excel · Power BI**
@@ -87,34 +89,16 @@ ISTAT BES regionale ───────┘   (1GrezziNonPuliti)               
 
 ---
 
-## 📁 5. I file in questo repository
+## 📁 5. Le cartelle del progetto
 
-| File | A cosa serve |
+| Cartella | Cosa contiene |
 |---|---|
-| `README.md` | Questo file |
-| `DESCRIZIONE_GITHUB.md` | Nome, descrizione e topics del repository |
-| `00_LEGGIMI.md` (in ogni cartella) | Una spiegazione corta di quella cartella |
-
-### 📂 01Python
-
-| File | A cosa serve |
-|---|---|
-| `01_analisi_speranza_di_vita.ipynb` | 📓 L'analisi completa con 7 grafici (si legge anche su GitHub) |
-| `02_CONCLUSIONI.md` | ✅ Le risposte alle 5 domande |
-
-### 📂 02Excel
-
-| File | A cosa serve |
-|---|---|
-| `01_Speranza_Di_Vita_Analisi.xlsx` | 📗 11 fogli: **La mia provincia**, **confronto tra 2 province**, province, regioni, zone, andamento |
-
-### 📂 03PowerBi
-
-| File | A cosa serve |
-|---|---|
-| `01_SperanzaDiVitaDashboard.zip` | ⭐ **La dashboard**: estrai lo zip e apri `SperanzaDiVita_Dashboard.pbip` con Power BI Desktop |
-| `02_SperanzaDiVita_Dashboard.pdf` | 📄 La dashboard in PDF |
-| `03_misure_DAX.txt` | 🧮 Le 34 misure DAX |
+| `01RaccoltaDati` | 🐍 `01_scarica.py` (scarica i dati) e `02_pulizia.py` (pulisce e crea le tabelle) |
+| `02Dati` | ❌ `1GrezziNonPuliti` (dati scaricati) e ✅ `2Puliti` (5 tabelle + `registro_pulizia.csv`) |
+| `03Python` | 📓 `analisi_speranza_di_vita.ipynb`, `CONCLUSIONI.md`, i 7 grafici in `Grafici` |
+| `04Excel` | 📗 `Speranza_Di_Vita_Analisi.xlsx` e lo script che lo crea |
+| `05PowerBi` | 📊 `SperanzaDiVitaDashboard` (apri il `.pbip`), il PDF, `misure_DAX.txt`, tema, sfondo e script |
+| `GitHub` | 🚀 La versione leggera da caricare su GitHub |
 
 📊 **Le 7 pagine della dashboard**
 
@@ -130,13 +114,13 @@ ISTAT BES regionale ───────┘   (1GrezziNonPuliti)               
 
 ---
 
-## 📦 6. Dati e script
+## ▶️ 6. Come rifare tutto
 
-📌 Qui ci sono solo i **risultati**: analisi, file Excel e dashboard.
-
-📥 I dati si possono riscaricare dalle fonti (link più sotto).
-
-🐍 Gli script Python di raccolta e pulizia dei dati sono disponibili su richiesta.
+1. `python 01RaccoltaDati/01_scarica.py` → scarica i dati
+2. `python 01RaccoltaDati/02_pulizia.py` → crea le tabelle in `02Dati/2Puliti`
+3. `python 03Python/crea_notebook.py` → crea il notebook (poi eseguilo)
+4. `python 04Excel/crea_excel.py` → crea il file Excel
+5. `python 05PowerBi/Script/crea_immagini.py` e `crea_powerbi.py` → sfondo e dashboard
 
 ---
 
